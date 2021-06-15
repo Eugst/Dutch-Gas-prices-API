@@ -65,12 +65,14 @@ def gas_prices(station_id):
             ocr_lines = ocr_result.split("\n")
 
             benzine_prijs = _search_value(ocr_lines, 'Euro 95')
+            e5_prijs = _search_value(ocr_lines, '(E5)')
             diesel_prijs = _search_value(ocr_lines, 'Diesel')
 
             if (benzine_prijs is None) or (diesel_prijs is None):
                 data = {
                     'station_id': station_id,
                     'benzine_prijs': benzine_prijs,
+                    'e5_prijs': e5_prijs,
                     'diesel_prijs' : diesel_prijs,
                     'ocr_station' : ocr_lines[0],
                     'status' : 'Station exists?'
@@ -79,6 +81,7 @@ def gas_prices(station_id):
                 data = {
                     'station_id': station_id,
                     'benzine_prijs': benzine_prijs,
+                    'e5_prijs': e5_prijs,
                     'diesel_prijs' : diesel_prijs,
                     'ocr_station' : ocr_lines[0],
                     'status' : 'Ok'
@@ -95,6 +98,7 @@ def gas_prices(station_id):
             data = {
                 'station_id': None,
                 'benzine_prijs': None,
+                'e5_prijs': None,
                 'diesel_prijs' : None,
                 'ocr_station' : None,
                 'status' : f'{response.status_code}'
