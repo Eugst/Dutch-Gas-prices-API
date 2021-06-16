@@ -1,0 +1,8 @@
+requests
+requests[socks] 
+requests[security] 
+fake_headers 
+tesseract 
+pytesseract 
+Pillow
+simplekml

@@ -1,3 +1,4 @@
+*.kml
 *.png
 *.json
 .vscode

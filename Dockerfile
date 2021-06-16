@@ -35,19 +35,13 @@ RUN conda install --yes \
     uvicorn=0.9.1 \
     pip
 
-# Install the pip packages
-RUN pip install \
-    requests \
-    requests[socks] \
-    requests[security] \
-    fake_headers \
-    tesseract \
-    pytesseract \
-    Pillow
-
 # Copy the python files to the image
 COPY ./app/api.py /home/apiuser/app/api.py
 COPY ./app/gas_prices.py /home/apiuser/app/gas_prices.py
+COPY ./app/requirements.txt /tmp/requirements.txt
+# Install the pip packages
+RUN pip install -r /tmp/requirements.txt
+
 WORKDIR /home/apiuser/app
 
 # Expose 5035 port for API
