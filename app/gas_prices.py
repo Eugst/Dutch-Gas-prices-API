@@ -13,7 +13,7 @@ from fake_headers import Headers
 
 # Settings
 # Something like lru_cache would be nice but has no time expiring support, so custom json storage
-CACHE_TIME = 3600
+CACHE_TIME = 2700
 
 def gas_prices(station_id):
     """
@@ -75,7 +75,8 @@ def gas_prices(station_id):
                     'e5_prijs': e5_prijs,
                     'diesel_prijs' : diesel_prijs,
                     'ocr_station' : ocr_lines[0],
-                    'status' : 'Station exists?'
+                    'status' : 'Station exists?',
+                    'timestamp': time.strftime("%d %b %Y %H:%M:%S +0000", time.gmtime())
                     }
             else:
                 data = {
@@ -84,7 +85,8 @@ def gas_prices(station_id):
                     'e5_prijs': e5_prijs,
                     'diesel_prijs' : diesel_prijs,
                     'ocr_station' : ocr_lines[0],
-                    'status' : 'Ok'
+                    'status' : 'Ok',
+                    'timestamp': time.strftime("%d %b %Y %H:%M:%S +0000", time.gmtime())
                     }
 
             with open('cache/' + f'{station_id}.json', 'w') as outfile:
@@ -101,7 +103,8 @@ def gas_prices(station_id):
                 'e5_prijs': None,
                 'diesel_prijs' : None,
                 'ocr_station' : None,
-                'status' : f'{response.status_code}'
+                'status' : f'{response.status_code}',
+                'timestamp': time.strftime("%d %b %Y %H:%M:%S +0000", time.gmtime())
                 }
         return data
 
