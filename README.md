@@ -21,4 +21,4 @@ If you completed above steps, navigate to http://localhost:5035/docs or http://m
 
 ### Gas map
 gas_map.py Using json to create kml for:  
-https://www.google.com/maps/d/edit?mid=1Ba2Uy_um6ZPH-Y-lY-yiC56jShqS4B4D&usp=sharing
+https://www.google.com/maps/d/embed?mid=1Ba2Uy_um6ZPH-Y-lY-yiC56jShqS4B4D&hl=en
