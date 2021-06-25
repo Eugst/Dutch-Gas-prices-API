@@ -6,3 +6,5 @@ tesseract
 pytesseract 
 Pillow
 simplekml
+pathlib
+shutil
