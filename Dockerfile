@@ -1,12 +1,5 @@
 FROM continuumio/miniconda3:4.9.2-alpine
 
-# Switch to nobody
-
-WORKDIR /home/nobody
-RUN mkdir /home/nobody/.conda
-RUN mkdir /home/nobody/app
-RUN mkdir /home/nobody/app/cache
-
 # Update miniconda
 RUN conda update -y conda
 
