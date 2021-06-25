@@ -1,30 +1,13 @@
-FROM ubuntu:bionic
-LABEL maintainer="sanderdw@gmail.com"
+FROM continuumio/miniconda3:4.9.2-alpine
 
-# Required ystem packages and cleanup
-RUN  apt-get update \
-    && apt-get install -y curl wget \
-	tesseract-ocr \
-	libtesseract-dev && apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+# Switch to nobody
 
-# Custom user to so we don't run under root
-RUN useradd -ms /bin/bash apiuser
+WORKDIR /home/nobody
+RUN mkdir /home/nobody/.conda
+RUN mkdir /home/nobody/app
+RUN mkdir /home/nobody/app/cache
 
-# Getting the latest miniconda installer and make the user owner
-ADD https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh /home/apiuser/miniconda.sh
-RUN chown apiuser /home/apiuser/miniconda.sh
-
-# Switch to apiuser
-USER apiuser
-WORKDIR /home/apiuser
-RUN mkdir /home/apiuser/.conda
-RUN mkdir /home/apiuser/app
-RUN mkdir /home/apiuser/app/cache
-
-# Install miniconda
-RUN /bin/bash /home/apiuser/miniconda.sh -b -p /home/apiuser/miniconda
-ENV PATH=/home/apiuser/miniconda/bin:${PATH}
+# Update miniconda
 RUN conda update -y conda
 
 # Install the conda packages
@@ -36,14 +19,14 @@ RUN conda install --yes \
     pip
 
 # Copy the python files to the image
-COPY ./app/api.py /home/apiuser/app/api.py
-COPY ./app/gas_prices.py /home/apiuser/app/gas_prices.py
+COPY ./app/api.py /home/nobody/app/api.py
+COPY ./app/gas_prices.py /home/nobody/app/gas_prices.py
 COPY ./app/requirements.txt /tmp/requirements.txt
 # Install the pip packages
 RUN pip install -r /tmp/requirements.txt
 
-WORKDIR /home/apiuser/app
-
+WORKDIR /home/nobody/app
+USER nobody
 # Expose 5035 port for API
 EXPOSE 5035
 
