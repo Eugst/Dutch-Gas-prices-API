@@ -13,12 +13,11 @@ def gas_map():
         print(count)
         if count % 2000 == 0:
             if count != 0:
-                kml.save(dir_name + "gas_stations_"+ str(count) +".kml")
+                kml.save(dir_name + 'gas_stations_'+ str(count) +'.kml')
             kml = simplekml.Kml()
-        # print(item)
         kml.newpoint(
-            name = str(item['id']),
-            description = item['brand'] + item['name'],
+            name = 'Id: ' + str(item['id']),
+            description = item['brand'] + ' ' + item['name'],
             coords = [(item['lng']/1000000, item['lat']/1000000)]
         )
         count += 1
