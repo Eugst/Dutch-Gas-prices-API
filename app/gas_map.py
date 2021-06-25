@@ -1,14 +1,14 @@
 import requests
 import simplekml
-from pathlib import Path
 import shutil
+import os
+import glob
 
 
 def gas_map():
     r = requests.get(url='https://tankservice.app-it-up.com/Tankservice/v1/places?fmt=web')
     count = 0
-    dir_name = 'cache/maps/'
-    Path(dir_name).mkdir(parents=True, exist_ok=True)
+    dir_name = os.getcwd() + '/cache/maps/'
     for item in r.json():
         print(count)
         if count % 2000 == 0:
@@ -22,6 +22,6 @@ def gas_map():
         )
         count += 1
     kml.save(dir_name + 'gas_stations_' + str(count) + '.kml')
-    archive_name = dir_name + 'archive.zip'
+    archive_name = dir_name + 'map_archive'
     shutil.make_archive(archive_name, 'zip', dir_name)
-    return archive_name
+    return archive_name + '.zip'

@@ -1,4 +1,10 @@
-FROM continuumio/miniconda3:4.9.2-alpine
+FROM continuumio/miniconda3:latest
+
+RUN  apt-get update \
+    && apt-get install -y curl wget \
+	tesseract-ocr \
+	libtesseract-dev && apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # Update miniconda
 RUN conda update -y conda
@@ -14,9 +20,10 @@ RUN conda install --yes \
 # Copy the python files to the image
 COPY ./app/api.py /home/nobody/app/api.py
 COPY ./app/gas_prices.py /home/nobody/app/gas_prices.py
+COPY ./app/gas_map.py /home/nobody/app/gas_map.py
 COPY ./app/requirements.txt /tmp/requirements.txt
 # Install the pip packages
-RUN pip install -r /tmp/requirements.txt
+RUN pip install -r /tmp/requirements.txt && mkdir -p /home/nobody/app/cache/maps && chown -R nobody /home/nobody/app/
 
 WORKDIR /home/nobody/app
 USER nobody
@@ -24,4 +31,4 @@ USER nobody
 EXPOSE 5035
 
 # Run fastapi with the app (api.py)
-CMD ["/bin/bash", "-c", "uvicorn --proxy-headers api:app --host=0.0.0.0 --port=5035"]
+CMD ["/bin/sh", "-c", "uvicorn --proxy-headers api:app --host=0.0.0.0 --port=5035"]

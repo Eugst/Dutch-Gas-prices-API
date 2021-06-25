@@ -36,7 +36,7 @@ async def api_gas_prices(station_id: str = Query(None, \
     return result
 
 
-@app.get("/api/v1/gas_maps",
+@app.get("/api/v1/gas_map",
          summary="Get ",
          description="Returns KML file with gas stations markers."
          )
